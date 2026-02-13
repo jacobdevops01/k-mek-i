@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="tk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <title>Nexus — IT hünärmeni</title>
+  
+  <!-- SEO мета-теги -->
+  <meta name="description" content="Premial IT hyzmatlar. Referatlar, kurs işleri, web saýtlar, DevOps, SSL. Döwrebap çözgütler.">
+  <meta name="keywords" content="IT hyzmatlar, DevOps, web saýt, kurs işleri, diplom, SSL, Apple style, Vercel">
+  <meta name="author" content="Nexus">
+  
+  <!-- Шрифты: SF Pro + Inter + Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- GSAP (гладкие анимации) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  
+  <style>
+    /* ===== ПРЕМИАЛЬНЫЙ РЕДИЗАЙН — APPLE / STRIPE / VERCEL ===== */
+    
+    /* Reset & Variables */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0A0A0F;
+      --bg-secondary: #12121A;
+      --bg-tertiary: #1A1A24;
+      --surface: rgba(26, 26, 36, 0.7);
+      --surface-hover: rgba(36, 36, 46, 0.9);
+      --border-light: rgba(255, 255, 255, 0.06);
+      --border-medium: rgba(255, 255, 255, 0.1);
+      
+      /* Apple-inspired градиенты */
+      --gradient-1: linear-gradient(145deg, #5E9CFF, #7B4BFF);
+      --gradient-2: linear-gradient(145deg, #FF6B4B, #FF4B8A);
+      --gradient-3: linear-gradient(145deg, #4BCFCF, #2F9BFF);
+      --gradient-4: linear-gradient(145deg, #A874FF, #E34BFF);
+      --gradient-5: linear-gradient(145deg, #FFB74B, #FF8A4B);
+      --gradient-6: linear-gradient(145deg, #4BFFB7, #2FCF9B);
+      
+      /* Текст */
+      --text-primary: rgba(255, 255, 255, 0.95);
+      --text-secondary: rgba(255, 255, 255, 0.65);
+      --text-tertiary: rgba(255, 255, 255, 0.45);
+      --text-inverse: #0A0A0F;
+      
+      /* Эффекты */
+      --blur-heavy: blur(20px);
+      --blur-medium: blur(12px);
+      --blur-light: blur(8px);
+      --shadow-sm: 0 8px 30px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 20px 40px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 30px 60px rgba(0, 0, 0, 0.4);
+      --shadow-glow: 0 0 30px rgba(94, 156, 255, 0.2);
+      
+      /* Typography */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-display: 'Space Grotesk', var(--font-sans);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-size: 16px;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ===== ANIMATED BACKGROUND BLOBS ===== */
+    .blobs {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      width: 60vmax;
+      height: 60vmax;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      animation: blobMove 30s infinite alternate ease-in-out;
+    }
+
+    .blob-1 {
+      background: radial-gradient(circle, #5E9CFF 0%, transparent 70%);
+      top: -20%;
+      right: -10%;
+      animation-delay: -5s;
+    }
+
+    .blob-2 {
+      background: radial-gradient(circle, #7B4BFF 0%, transparent 70%);
+      bottom: -20%;
+      left: -10%;
+      animation-delay: -10s;
+      width: 70vmax;
+      height: 70vmax;
+    }
+
+    .blob-3 {
+      background: radial-gradient(circle, #FF6B4B 0%, transparent 70%);
+      top: 40%;
+      left: 20%;
+      width: 50vmax;
+      height: 50vmax;
+      opacity: 0.1;
+    }
+
+    @keyframes blobMove {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-5%, 5%) scale(1.1); }
+    }
+
+    /* ===== FLOATING GRADIENTS ===== */
+    .floating-gradient {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(94, 156, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(123, 75, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(255, 107, 75, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+    }
+
+    /* ===== MODERN MINIMAL TYPOGRAPHY ===== */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: clamp(3.5rem, 10vw, 5.5rem);
+      line-height: 1.05;
+      margin-bottom: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: white;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .gradient-text {
+      background: linear-gradient(145deg, #fff, #E0E7FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+      font-size: clamp(2.5rem, 6vw, 3.5rem);
+      line-height: 1.1;
+      margin-bottom: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(145deg, #FFFFFF, #C0D0FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* ===== SMOOTH SCROLL ===== */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* ===== PREMIUM NAVIGATION ===== */
+    .navbar {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 48px);
+      max-width: 1280px;
+      background: rgba(10, 10, 15, 0.7);
+      backdrop-filter: var(--blur-heavy);
+      -webkit-backdrop-filter: var(--blur-heavy);
+      border: 1px solid var(--border-light);
+      border-radius: 100px;
+      padding: 12px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: var(--font-display);
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 48px;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .nav-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid var(--border-medium);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: white;
+      color: var(--bg-primary);
+    }
+
+    @media (max-width: 768px) {
+      .navbar { padding: 12px 24px; }
+      .nav-links { display: none; }
+    }
+
+    /* ===== MODERN BUTTONS ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 36px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      border: none;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--bg-primary);
+      box-shadow: 0 8px 30px rgba(255,255,255,0.1);
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 12px 40px rgba(255,255,255,0.2);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      color: white;
+      backdrop-filter: var(--blur-light);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn i {
+      transition: transform 0.2s ease;
+    }
+
+    .btn:hover i {
+      transform: translateX(4px);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: var(--blur-light);
+      border: 1px solid var(--border-light);
+      border-radius: 100px;
+      padding: 8px 16px;
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .hero-badge i {
+      color: #5E9CFF;
+    }
+
+    /* ===== GLASS CARDS ===== */
+    .glass-card {
+      background: var(--surface);
+      backdrop-filter: var(--blur-medium);
+      -webkit-backdrop-filter: var(--blur-medium);
+      border: 1px solid var(--border-light);
+      border-radius: 32px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass-card:hover {
+      background: var(--surface-hover);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-8px);
+    }
+
+    /* ===== UNIQUE SVG ANIMATIONS FOR EACH SERVICE ===== */
+    @keyframes floatBook {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    @keyframes spinChart {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulseCap {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    @keyframes codeGlow {
+      0%, 100% { filter: drop-shadow(0 0 5px #5E9CFF); }
+      50% { filter: drop-shadow(0 0 20px #5E9CFF); }
+    }
+
+    @keyframes rotateCog {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes lockShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .service-card {
+      background: var(--surface);
+      backdrop-filter: var(--blur-medium);
+      border: 1px solid var(--border-light);
+      border-radius: 32px;
+      padding: 32px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.1), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .service-card:hover::after {
+      opacity: 1;
+    }
+
+    .service-card i {
+      font-size: 2.8rem;
+      margin-bottom: 24px;
+      display: inline-block;
+    }
+
+    /* Unique animations for each service icon */
+    .service-card:nth-child(1) i {
+      animation: floatBook 4s infinite ease-in-out;
+      color: #5E9CFF;
+    }
+    .service-card:nth-child(2) i {
+      animation: spinChart 8s infinite linear;
+      color: #FF6B4B;
+    }
+    .service-card:nth-child(3) i {
+      animation: pulseCap 2s infinite ease-in-out;
+      color: #7B4BFF;
+    }
+    .service-card:nth-child(4) i {
+      animation: codeGlow 3s infinite;
+      color: #4BCFCF;
+    }
+    .service-card:nth-child(5) i {
+      animation: rotateCog 10s infinite linear;
+      color: #FFB74B;
+    }
+    .service-card:nth-child(6) i {
+      animation: lockShake 4s infinite;
+      color: #FF4B8A;
+    }
+
+    .service-card h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    .service-card p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .service-number {
+      position: absolute;
+      top: 32px;
+      right: 32px;
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.03);
+      font-family: var(--font-display);
+    }
+
+    /* ===== MAGNETIC HOVER EFFECT ===== */
+    .magnetic {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ===== SERVICES GRID ===== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    @media (min-width: 640px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* ===== FEATURES GRID ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    @media (min-width: 768px) {
+      .features-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+
+    .feature-item {
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: var(--blur-light);
+      border: 1px solid var(--border-light);
+      border-radius: 24px;
+      padding: 28px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-5px);
+    }
+
+    .feature-item i {
+      font-size: 2.2rem;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+
+    .feature-item span {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+
+    /* ===== CONTACT SECTION — APPLE STYLE ===== */
+    .contact-premium {
+      background: var(--surface);
+      backdrop-filter: var(--blur-heavy);
+      border: 1px solid var(--border-light);
+      border-radius: 48px;
+      padding: 60px;
+      margin-top: 40px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    .contact-info h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .contact-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 24px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      transition: all 0.3s;
+    }
+
+    .contact-method:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: var(--gradient-1);
+      transform: translateX(10px);
+    }
+
+    .contact-method i {
+      font-size: 1.8rem;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .method-detail {
+      flex: 1;
+    }
+
+    .method-label {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .method-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .contact-illustration {
+      background: rgba(94, 156, 255, 0.05);
+      border-radius: 32px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-light);
+    }
+
+    .contact-illustration i {
+      font-size: 5rem;
+      color: rgba(255,255,255,0.2);
+      margin-bottom: 20px;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer-premium {
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: var(--blur-heavy);
+      border-top: 1px solid var(--border-light);
+      padding: 60px 0;
+      margin-top: 80px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: var(--font-display);
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 48px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-social a {
+      color: var(--text-secondary);
+      font-size: 1.4rem;
+      transition: all 0.2s;
+    }
+
+    .footer-social a:hover {
+      color: white;
+      transform: translateY(-4px);
+    }
+
+    @media (max-width: 768px) {
+      .footer-content { flex-direction: column; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; gap: 24px; }
+    }
+
+    /* ===== LOTTIE-LIKE CSS ANIMATIONS ===== */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .floating {
+      animation: float 6s infinite ease-in-out;
+    }
+
+    .pulsing {
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      h1 { font-size: 2.8rem; }
+      .contact-premium { padding: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background Blobs -->
+  <div class="blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="floating-gradient"></div>
+
+  <!-- Premium Navigation -->
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="#hero">Baş sahypa</a>
+      <a href="#services">Hyzmatlar</a>
+      <a href="#why-me">Artýkmaçlyklar</a>
+      <a href="#contact">Habarlaş</a>
+    </div>
+    <a href="#contact" class="nav-btn">Telegram ID</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-sparkle"></i>
+          <span>Premial IT hyzmatlar</span>
+        </div>
+        <h1>
+          <span class="gradient-text">Professional IT</span><br>
+          we okuw işleri
+        </h1>
+        <p class="subtitle">
+          Referatlar, kurs işleri, web saýtlar, DevOps — ählisi ýokary hilli, möhlet berjaýlygy we gizlinlik kepillendirilýär.
+        </p>
+        <div style="display: flex; gap: 20px; margin-top: 40px;">
+          <a href="#contact" class="btn btn-primary">
+            Başlamak <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="#services" class="btn btn-outline">
+            Hyzmatlary gör
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section with Unique Animations -->
+  <section id="services">
+    <div class="container">
+      <h2>Hyzmatlarym</h2>
+      <p class="subtitle" style="margin-bottom: 40px;">
+        Her hyzmat üçin özboluşly animasiýa we döwrebap çemeleşme
+      </p>
+      
+      <div class="services-grid">
+        <div class="service-card glass-card">
+          <div class="service-number">01</div>
+          <i class="fas fa-book-open"></i>
+          <h3>Referatlar</h3>
+          <p>Islendik tema, ýokary özboluşlylyk, GOST/APA standartlary. Çeşmeleriň çuňňur derňewi.</p>
+        </div>
+        
+        <div class="service-card glass-card">
+          <div class="service-number">02</div>
+          <i class="fas fa-chart-pie"></i>
+          <h3>Prezentasiýalar</h3>
+          <p>PowerPoint, Google Slides. Premium dizaýn, infografika, professional animasiýalar.</p>
+        </div>
+        
+        <div class="service-card glass-card">
+          <div class="service-number">03</div>
+          <i class="fas fa-graduation-cap"></i>
+          <h3>Kurs & Diplom</h3>
+          <p>Tehniki we gumanitar ugurlar. Hasap lamalar, çyzgylar, antiplagiat, gürlemek tekstleri.</p>
+        </div>
+        
+        <div class="service-card glass-card">
+          <div class="service-number">04</div>
+          <i class="fas fa-code"></i>
+          <h3>Web Saýtlar</h3>
+          <p>Landingler, korporatiw portallar, e-commerce. Arassa kod, adaptiv, ýokary tizlik.</p>
+        </div>
+        
+        <div class="service-card glass-card">
+          <div class="service-number">05</div>
+          <i class="fas fa-cogs"></i>
+          <h3>DevOps</h3>
+          <p>CI/CD pipeline, Docker, Kubernetes, server sazlamasy, Infrastructure as Code.</p>
+        </div>
+        
+        <div class="service-card glass-card">
+          <div class="service-number">06</div>
+          <i class="fas fa-lock"></i>
+          <h3>SSL/Howpsuzlyk</h3>
+          <p>SSL sertifikat gurnama, çalyşma, uzaltma. Let's Encrypt, Comodo, howpsuzlyk auditi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Me Section -->
+  <section id="why-me">
+    <div class="container">
+      <h2>Artýkmaçlyklar</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <i class="fas fa-user-check"></i>
+          <span>Ýöriteleşdirilen çemeleşme</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-calendar-check"></i>
+          <span>Möhlet berjaýlygy</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-shield-alt"></i>
+          <span>Gizlinlik</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-microchip"></i>
+          <span>Döwrebap tehnologiýalar</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-headset"></i>
+          <span>24/7 goldaw</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section - Apple Style -->
+  <section id="contact">
+    <div class="container">
+      <h2>Habarlaş</h2>
+      <div class="contact-premium">
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h3>Geliň, taslamaňyzy ara alyp maslahatlaşalyň</h3>
+            <p class="subtitle" style="margin-bottom: 20px;">
+              2-3 sagadyň içinde jogap berýärin. Islendik soraglaryňyzy beýan edip bilersiňiz.
+            </p>
+            
+            <div class="contact-methods">
+              <div class="contact-method magnetic">
+               
+                <div class="method-detail">
+                 
+
+                  <div class="method-value">@ahmedov000g <a href="https://t.me/ahmedov000g"><i class="fab fa-telegram-plane"></i></a></div>
+                </div>
+              </div>
+              
+              <div class="contact-method magnetic">
+                <div class="method-detail">
+                  <div class="method-label">TELEGRAM (DevOps)</div>
+                  <div class="method-value">@devpenguin <a href="https://t.me/devpenguin"><i class="fab fa-telegram"></i></a></div>
+                </div>
+              </div>
+              
+              <div class="contact-method magnetic">
+                <i class="fas fa-envelope"></i>
+                <div class="method-detail">
+                  <div class="method-label">E-POÇTA</div>
+                  <div class="method-value">jacobdevops@gmail.com</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contact-illustration floating">
+            <i class="fas fa-paper-plane"></i>
+            <h3 style="font-size: 1.8rem; margin-bottom: 10px;">Ýazyň!</h3>
+            <p style="color: var(--text-secondary); text-align: center;">
+              1 sagat içinde jogap<br>
+              Doly gizlinlik
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Footer -->
+  <footer class="footer-premium">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#hero">Baş sahypa</a>
+          <a href="#services">Hyzmatlar</a>
+          <a href="#why-me">Artýkmaçlyklar</a>
+          <a href="#contact">Habarlaş</a>
+        </div>
+        <div class="footer-social">
+          <a href="mailto:jacobdevops@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+      <div style="margin-top: 40px; color: var(--text-tertiary); font-size: 0.9rem; text-align: center;">
+        
+      </div>
+    </div>
+  </footer>
+
+  <!-- GSAP Animations & Magnetic Effect -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          gsap.to(window, {
+            duration: 1.2,
+            scrollTo: {
+              y: target,
+              offsetY: 80
+            },
+            ease: 'power3.inOut'
+          });
+        }
+      });
+    });
+
+    // Magnetic hover effect
+    const magneticElements = document.querySelectorAll('.magnetic, .service-card, .feature-item, .contact-method');
+    
+    magneticElements.forEach(element => {
+      element.addEventListener('mousem
